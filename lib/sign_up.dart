@@ -303,7 +303,7 @@ class _SignUpState extends State<SignUp> {
       formState.save();
       FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _emailr, password: _passwordr);
-      print('registro_completado');
+      print('registro_completadok');
     }
   }
 }
