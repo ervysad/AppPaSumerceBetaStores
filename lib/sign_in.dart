@@ -7,6 +7,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_world_vs/paginas/home.dart';
 import 'package:hello_world_vs/sign_up.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,7 +19,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String _email = '', _password = '';
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // final AuthService _auth = AuthService();
 
@@ -151,39 +154,72 @@ class _LoginPageState extends State<LoginPage> {
                                   )),
                             ),
                           ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 40.0,
-                            color: Colors.transparent,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.black,
-                                      style: BorderStyle.solid,
-                                      width: 1.5),
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Center(
-                                      child: ImageIcon(
-                                          AssetImage('assets/facebook.png')),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Center(
-                                      child: Text(
-                                        'Iniciar con Facebook',
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    )
-                                  ],
-                                )),
+                          SizedBox(height: 5),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Container(
+                                  width: 250.0,
+                                  child: Align(
+                                      alignment: Alignment.center,
+                                      child: RaisedButton(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                        ),
+                                        color: Color(0xffffffff),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Icon(
+                                              FontAwesomeIcons.google,
+                                              color: Color(0xFFFF0000),
+                                            ),
+                                            SizedBox(
+                                              width: 20.0,
+                                            ),
+                                            Text('Iniciar con Google',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18.0)),
+                                          ],
+                                        ),
+                                        onPressed: () {},
+                                      ))),
+                              Container(
+                                  width: 250.0,
+                                  child: Align(
+                                      alignment: Alignment.center,
+                                      child: RaisedButton(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                        ),
+                                        color: Color(0xffffffff),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Icon(
+                                              FontAwesomeIcons.facebookF,
+                                              color: Color(0xFF000000),
+                                            ),
+                                            SizedBox(
+                                              width: 20.0,
+                                            ),
+                                            Text('Iniciar con Facebook',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18.0)),
+                                          ],
+                                        ),
+                                        onPressed: () {},
+                                      )))
+                            ],
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 10.0, left: 20),
@@ -227,6 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                                   )),
                             ),
                           ),
+                          SizedBox(height: 30),
                         ],
                       ),
                     )
@@ -239,4 +276,20 @@ class _LoginPageState extends State<LoginPage> {
       ),
     ));
   }
+}
+
+class UserDetails {
+  final String providerDetails;
+  final String userName;
+  final String photoUrl;
+  final String userEmail;
+  final List<ProviderDetails> providerData;
+
+  UserDetails(this.providerDetails, this.userName, this.photoUrl,
+      this.userEmail, this.providerData);
+}
+
+class ProviderDetails {
+  ProviderDetails(this.providerDetails);
+  final String providerDetails;
 }
