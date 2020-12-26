@@ -6,11 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_world_vs/paginas/home.dart';
+import 'package:hello_world_vs/paginas/FirstScreen.dart';
 import 'package:hello_world_vs/sign_up.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'Gauth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -189,7 +191,17 @@ class _LoginPageState extends State<LoginPage> {
                                                     fontSize: 18.0)),
                                           ],
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          signInWithGoogle().then((result) {
+                                            if (result != null) {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) {
+                                                return FirstScreen();
+                                              }));
+                                            }
+                                          });
+                                        },
                                       ))),
                               Container(
                                   width: 250.0,
