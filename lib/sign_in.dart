@@ -12,7 +12,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
+
 import 'Gauth.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+int logInType = 0;
+String name1;
+String email1;
+String imageUrl1;
+FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,6 +30,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String _email = '', _password = '';
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // final AuthService _auth = AuthService();
 
@@ -44,8 +54,10 @@ class _LoginPageState extends State<LoginPage> {
         UserCredential user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password);
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
-        print('existo');
+            context, MaterialPageRoute(builder: (context) => FirstScreen()));
+        print(email1);
+        logInType = 1;
+        email1 = _email;
       } catch (e) {
         print('Error $e');
       }

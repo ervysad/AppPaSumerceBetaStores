@@ -10,6 +10,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hello_world_vs/paginas/loco.dart';
+
 // AQUI INICIA LA VENTANA DE REGISTRO
 
 class SignUp extends StatefulWidget {
@@ -308,7 +312,11 @@ class _SignUpState extends State<SignUp> {
           .createUserWithEmailAndPassword(email: _emailr, password: _passwordr);
       print('registro_completado');
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  AddUser(_nombre, _apellidos, _emailr, _tel, _passwordrr)));
+
       print('creado');
     }
   }
