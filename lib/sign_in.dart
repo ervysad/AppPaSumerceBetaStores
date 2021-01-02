@@ -30,7 +30,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String _email = '', _password = '';
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // final AuthService _auth = AuthService();
 

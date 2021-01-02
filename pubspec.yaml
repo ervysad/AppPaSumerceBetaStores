@@ -42,9 +42,8 @@ flutter:
 
   
   assets:
-   - assets/facebook.png
-   - assets/
-  
+    - assets/facebook.png
+    - icons/
   fonts:
     - family: Montserrat
       fonts:
