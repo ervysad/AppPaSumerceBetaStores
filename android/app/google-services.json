@@ -15,17 +15,6 @@
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
-          "client_id": "921239622029-qubhb7iuv62vuaqmv67jet68oslq6udr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.hello_world_vs",
-            "certificate_hash": "ad7e84cd3d325033e796c0eea8c5c5677b9de2f9"
-          }
-        },
-        {
-=======
->>>>>>> dbfffe7a105b9e5f619ef5b1b41e4e716c138ccb
           "client_id": "921239622029-ehni1ukklfgqdo78g9eev5cnnq5so80r.apps.googleusercontent.com",
           "client_type": 3
         }
