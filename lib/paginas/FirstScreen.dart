@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hello_world_vs/Gauth.dart';
 import 'package:hello_world_vs/sign_in.dart';
 import 'package:hello_world_vs/paginas/home.dart';
-import 'package:hello_world_vs/paginas/loco.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hello_world_vs/paginas/ListaTiendas.dart';
+//Last Version 14/01/2021
 
 class FirstScreen extends StatelessWidget {
   @override
@@ -17,9 +16,8 @@ class FirstScreen extends StatelessWidget {
                   children: <Widget>[
             Container(
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  colors: [Colors.green[100], Colors.lightBlue[400]],
-                )),
+                  color: Colors.green,
+                ),
                 child: Stack(children: <Widget>[
                   Container(
                     child: Column(children: <Widget>[
@@ -29,7 +27,7 @@ class FirstScreen extends StatelessWidget {
                         height: MediaQuery.of(context).size.width / 4,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage('icons/logo1.png'),
+                            image: AssetImage('icons/logo11.png'),
                             fit: BoxFit.fill,
                           ),
                           border: Border.all(
@@ -82,17 +80,17 @@ class FirstScreen extends StatelessWidget {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          signOutGoogle();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) {
-                            return LoginPage();
-                          }), ModalRoute.withName('/'));
+                          verify();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ListViewProduct()));
                         },
-                        color: Colors.red,
+                        color: Colors.green[300],
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'No Aceptar',
+                            'Aceptar',
                             style: TextStyle(fontSize: 25, color: Colors.white),
                           ),
                         ),
@@ -105,15 +103,17 @@ class FirstScreen extends StatelessWidget {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          verify();
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => HOME()));
+                          signOutGoogle();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (context) {
+                            return LoginPage();
+                          }), ModalRoute.withName('/'));
                         },
-                        color: Colors.green[300],
+                        color: Colors.grey,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Aceptar',
+                            'No Aceptar',
                             style: TextStyle(fontSize: 25, color: Colors.white),
                           ),
                         ),

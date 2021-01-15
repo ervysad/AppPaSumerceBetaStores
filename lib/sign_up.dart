@@ -4,14 +4,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
-
-import 'package:hello_world_vs/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:firebase_core/firebase_core.dart';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hello_world_vs/paginas/loco.dart';
 
 // AQUI INICIA LA VENTANA DE REGISTRO
