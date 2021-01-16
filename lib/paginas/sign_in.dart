@@ -5,12 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
-import 'package:hello_world_vs/paginas/FirstScreen.dart';
-import 'package:hello_world_vs/sign_up.dart';
+import 'package:hello_world_vs/paginas/FirstScreeeeen.dart';
+import 'package:hello_world_vs/paginas/sign_up.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'Gauth.dart';
+import '../logic/Gauth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 

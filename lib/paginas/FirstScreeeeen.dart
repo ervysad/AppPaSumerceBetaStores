@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world_vs/Gauth.dart';
-import 'package:hello_world_vs/sign_in.dart';
+import 'package:hello_world_vs/logic/Gauth.dart';
+import 'package:hello_world_vs/paginas/sign_in.dart';
 import 'package:hello_world_vs/paginas/home.dart';
-import 'package:hello_world_vs/paginas/ListaTiendas.dart';
 //Last Version 14/01/2021
 
 class FirstScreen extends StatelessWidget {

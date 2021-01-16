@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hello_world_vs/paginas/loco.dart';
+import 'package:hello_world_vs/paginas/UserAdded.dart';
 
 // AQUI INICIA LA VENTANA DE REGISTRO
 

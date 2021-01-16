@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // Import the firebase_core and cloud_firestore plugin
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hello_world_vs/sign_in.dart';
+import 'package:hello_world_vs/paginas/sign_in.dart';
 
 class AddUser extends StatelessWidget {
   final String nombre;

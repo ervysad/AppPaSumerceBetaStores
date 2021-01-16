@@ -15,7 +15,6 @@ class _StoresInformationState extends State<StoresInformation> {
   List<Stores> items;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

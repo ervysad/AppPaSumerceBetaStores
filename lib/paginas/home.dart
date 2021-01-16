@@ -1,131 +1,269 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:hello_world_vs/Gauth.dart';
-import 'package:hello_world_vs/paginas/ListaItems.dart';
+import 'dart:async';
+import 'package:hello_world_vs/paginas/TiendaPantalla.dart';
+import 'package:hello_world_vs/paginas/TiendaInfo.dart';
+import 'package:hello_world_vs/logic/dat_store.dart';
+import 'package:flutter/material.dart';
+import 'package:hello_world_vs/logic/Gauth.dart';
+import 'package:hello_world_vs/logic/ListaItems.dart';
+import 'package:flutter/material.dart';
 
-class HOME extends StatelessWidget {
+class ListViewProduct extends StatefulWidget {
+  @override
+  _ListViewProductState createState() => _ListViewProductState();
+}
+
+final storeReference = FirebaseDatabase.instance.reference().child('stores');
+
+class _ListViewProductState extends State<ListViewProduct> {
+  List<Stores> items;
+  StreamSubscription<Event> _onStoreAddedStore;
+  StreamSubscription<Event> _onStoreEditStore;
+  StreamSubscription<Event> _onStoreDeleteStore;
+
+  @override
+  void initState() {
+    super.initState();
+    items = new List();
+    _onStoreAddedStore = storeReference.onChildAdded.listen(_onStoreAdded);
+    _onStoreEditStore = storeReference.onChildChanged.listen(_onStoreEdit);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _onStoreAddedStore.cancel();
+    _onStoreEditStore.cancel();
+    _onStoreDeleteStore.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Bienvenido,  ${name}'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: Datasearch());
-            },
-          )
-        ],
-        backgroundColor: Colors.lightGreen,
+    return MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.grey[300],
       ),
-      body: SingleChildScrollView(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+      title: 'Home',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Bienvenido,  ${name}'),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: Datasearch());
+              },
+            )
+          ],
+          backgroundColor: Colors.lightGreen,
+        ),
+        body: Center(
+          child: ListView.builder(
+              itemCount: items.length,
+              padding: EdgeInsets.only(top: 12.0),
+              itemBuilder: (context, position) {
+                return Column(children: <Widget>[
+                  Divider(
+                    height: 7.0,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: ListTile(
+                        title: Text(
+                          '${items[position].name}',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 21.0,
+                          ),
+                        ),
+                        subtitle: Text(
+                          '${items[position].description}',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 21.0,
+                          ),
+                        ),
+                        leading: Column(
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundColor: Colors.amber,
+                              radius: 17.0,
+                              child: Text(
+                                '${position + 1}',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 21.0,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        onTap: () =>
+                            _navigateToStoreDetails(context, items[position]),
+                      )),
+                      IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () =>
+                              _deleteStore(context, items[position], position)),
+                      IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.yellow,
+                          ),
+                          onPressed: () =>
+                              _navigateToStore(context, items[position])),
+                      IconButton(
+                        icon: Icon(
+                          Icons.remove,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {},
+                      )
+                    ],
+                  )
+                ]);
+              }),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.deepOrange,
+          onPressed: () => _createNewStore(context),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
             children: <Widget>[
-              Container(
-                //Cointainer General (wrapper)
+              DrawerHeader(
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [Colors.green[100], Colors.lightBlue[400]],
-                )),
-                child: Stack(children: <Widget>[
-                  Container(
-                      child: Column(
+                  color: Colors.lightGreen,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                          //Content1
-                          ),
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          imageUrl,
+                        //Cointainer General (wrapper)
+                        decoration: BoxDecoration(
+                          color: Colors.lightGreen,
                         ),
-                      ),
-                      SizedBox(
-                        height: 1000.0,
+
+                        child: Stack(children: <Widget>[
+                          Container(
+                              child: Column(
+                            children: <Widget>[
+                              Container(
+                                  //Content1
+
+                                  ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              CircleAvatar(
+                                radius: 45.0,
+                                backgroundImage: NetworkImage(
+                                  imageUrl,
+                                ),
+                              ),
+                              Text(
+                                userIDo,
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                            ],
+                          ))
+                        ]),
                       ),
                     ],
-                  ))
-                ]),
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text('Item 1'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ListViewProduct()));
+                },
+              ),
+              ListTile(
+                title: Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ListViewProduct()));
+                },
               ),
             ],
           ),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.lightGreen,
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      //Cointainer General (wrapper)
-                      decoration: BoxDecoration(
-                        color: Colors.lightGreen,
-                      ),
+    );
+  }
 
-                      child: Stack(children: <Widget>[
-                        Container(
-                            child: Column(
-                          children: <Widget>[
-                            Container(
-                                //Content1
-                                ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            CircleAvatar(
-                              radius: 45.0,
-                              backgroundImage: NetworkImage(
-                                imageUrl,
-                              ),
-                            ),
-                            Text(
-                              name,
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                          ],
-                        ))
-                      ]),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+  void _onStoreAdded(Event event) {
+    setState(() {
+      items.add(new Stores.fromSnapshot(event.snapshot));
+    });
+  }
+
+  void _onStoreEdit(Event event) {
+    var oldStoreValue =
+        items.singleWhere((Stores) => Stores.id == event.snapshot.key);
+    setState(() {
+      items[items.indexOf(oldStoreValue)] =
+          new Stores.fromSnapshot(event.snapshot);
+    });
+  }
+
+  void _deleteStore(BuildContext context, Stores stores, int position) async {
+    await storeReference.child(stores.id).remove().then((_) {
+      setState(() {
+        items.removeAt(position);
+      });
+    });
+  }
+
+  void _navigateToStoreDetails(BuildContext context, Stores stores) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => StoresScreen(stores)),
+    );
+  }
+
+  void _navigateToStore(BuildContext context, Stores stores) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => StoresInformation(stores)),
+    );
+  }
+
+  void _createNewStore(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => StoresScreen(Stores(null, '', '', '', ''))),
     );
   }
 }
